@@ -10,7 +10,7 @@ from PIL import Image
 
 
 def generate_icon_images(icon_filename):
-    sizes = [20, 29, 40, 60, 50, 57, 58, 72, 76, 80, 87, 100, 114, 120, 144, 152, 167, 180, 1024]
+    sizes = [20, 29, 40, 50, 57, 58, 60, 72, 76, 80, 87, 100, 114, 120, 144, 152, 167, 180, 1024]
     image_name = icon_filename
     contents = {
         "info": {
@@ -42,7 +42,15 @@ def generate_icon_images(icon_filename):
         i = img.resize((size, size), Image.ANTIALIAS)
         img_filename = "Icon{0}.png".format(size)
         i.save(img_filename, format="PNG")
-        if size == 29:
+        if size == 20:
+            asset_entry = {
+                "size": "20x20",
+                "idiom": "ipad",
+                "scale": "1x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+        elif size == 29:
             asset_entry = {
                 "size": "29x29",
                 "idiom": "iphone",
@@ -59,9 +67,23 @@ def generate_icon_images(icon_filename):
             images.append(asset_entry)
         elif size == 40:
             asset_entry = {
+                "idiom" : "iphone",
+                "size" : "20x20",
+                "scale" : "2x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+            asset_entry = {
                 "size": "40x40",
                 "idiom": "ipad",
                 "scale": "1x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+            asset_entry = {
+                "size": "20x20",
+                "idiom": "ipad",
+                "scale": "2x",
                 "filename": img_filename
             }
             images.append(asset_entry)
@@ -93,6 +115,14 @@ def generate_icon_images(icon_filename):
                 "size": "29x29",
                 "idiom": "ipad",
                 "scale": "2x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+        elif size == 60:
+            asset_entry = {
+                "size": "20x20",
+                "idiom": "iphone",
+                "scale": "3x",
                 "filename": img_filename
             }
             images.append(asset_entry)
@@ -187,6 +217,22 @@ def generate_icon_images(icon_filename):
                 "size": "60x60",
                 "idiom": "iphone",
                 "scale": "3x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+        elif size == 167:
+            asset_entry = {
+                "size": "83.5x83.5",
+                "idiom": "ipad",
+                "scale": "2x",
+                "filename": img_filename
+            }
+            images.append(asset_entry)
+        elif size == 1024:
+            asset_entry = {
+                "size": "1024x1024",
+                "idiom": "ios-marketing",
+                "scale": "1x",
                 "filename": img_filename
             }
             images.append(asset_entry)
