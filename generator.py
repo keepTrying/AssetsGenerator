@@ -23,7 +23,8 @@ def generate_icon_images(icon_filename):
         sys.exit("Missing {0} file".format(image_name))
 
     img = Image.open(image_name)
-
+    img = remove_transparency(img)
+    
     # Check image size
     if img.size < (1024, 1024):
         sys.exit("{0} size is {1}. Must be 1024x1024 or higher.".format(image_name, img.size))
@@ -348,6 +349,25 @@ def generate_launch_image(image_name):
     file = open("Contents.json", "w")
     file.write(json.dumps(contents))
     file.close()
+
+#remove alpha tunnul of a picture
+def remove_transparency(im, bg_colour=(255, 255, 255)):
+
+    # Only process if image has transparency (https://stackoverflow.com/a/1963146)
+    if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
+
+        # Need to convert to RGBA if LA format due to a bug in PIL (https://stackoverflow.com/a/1963146)
+        alpha = im.convert('RGBA').split()[-1]
+
+        # Create a new background image of our matt color.
+        # Must be RGBA because paste requires both images have the same format
+        # (https://stackoverflow.com/a/8720632  and  https://stackoverflow.com/a/9459208)
+        bg = Image.new("RGBA", im.size, bg_colour + (255,))
+        bg.paste(im, mask=alpha)
+        return bg
+
+    else:
+        return im
 
 
 if __name__ == '__main__':
